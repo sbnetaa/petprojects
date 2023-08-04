@@ -35,7 +35,7 @@ public class WebSecurityConfig {
 	
 	@Bean
 	public UserDetailsService userDetailsService() {
-		PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder(); // it works!
 		 // outputs {bcrypt}$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HZWzG3YB1tlRy.fqvM/BG
 		 // remember the password that is printed out and use in the next step
 		 System.out.println(encoder.encode("password"));
