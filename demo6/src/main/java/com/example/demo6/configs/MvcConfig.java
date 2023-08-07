@@ -1,4 +1,4 @@
-package com.example.demo6.config;
+package com.example.demo6.configs;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
