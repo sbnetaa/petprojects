@@ -33,15 +33,25 @@
 </div>
 <table border="1" color="black" border-collapse="collapse">
 	<tr>
-		<td>ID</td>
-		<td>Кличка</td>
-		<td>Имя</td>
-		<td>Порода</td>
-		<td>Дата рождения</td>
-		<td>Щенки</td>
+		<td><b>ID</b></td>
+		<td><b>Кличка</b></td>
+		<td><b>Имя</b></td>
+		<td><b>Порода</b></td>
+		<td><b>Дата рождения</b></td>
+		<td><b>Щенки</b></td>
 		</tr>
-<tr  border="1" border-collapse="collapse" th:each="dog : ${dogs}">
-       <td border-collapse="collapse" th:text="${dog.id}">1</td>
+		<tr>
+			<form modelAttribute="dog" th:method="POST" th:object:"${dog}" th:action="@{/}" action="#">
+			<td><input type="submit" value="Добавить"/></td>
+			<td><input type="text" th:field="*{dog.nickname}" id="dog.nickname"/></td>
+			<td><input type="text" th:field="*{dog.name}" id="dog.name"/></td>
+			<td><input type="text" th:field="*{dog.breed}" id="dog.breed"/></td>
+			<td><input type="text" th:field="*{dog.dateOfBirth}" id="dog.dateOfBirth"/></td>
+			<td><input type="text" th:field="*{dog.puppies}" id="dog.puppies"/></td>
+			</form>
+			</tr>
+<tr  th:each="dog : ${dogs}">
+       <td th:text="${dog.id}">1</td>
        <td th:text="${dog.nickname}">Title ...</a></td>
        <td th:text="${dog.name}">Text ...</td>
        <td th:text="${dog.breed}">Title ...</a></td>

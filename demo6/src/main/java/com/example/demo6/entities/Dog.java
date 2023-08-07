@@ -14,14 +14,14 @@ import jakarta.persistence.Table;
 @Table(name = "dogs")
 public class Dog {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@Column(name = "id")
 	private Long id;
-	@Column(name = "nickname")
+	//@Column(name = "nickname")
 	private String nickname;
-	@Column(name = "name")
+	//@Column(name = "name")
 	private String name;
-	@Column(name = "breed")
+	//@Column(name = "breed")
 	private String breed;
 	@Column(name = "date_of_birth")
 	private LocalDateTime dateOfBirth;

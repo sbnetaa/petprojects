@@ -12,8 +12,6 @@ import com.example.demo6.repositories.DogRepository;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
 @Service
 @Transactional(readOnly = true)
 public class DogService {
@@ -24,8 +22,21 @@ public class DogService {
 		this.dogRepository = dogRepository;
 	}
 
+	public DogRepository getDogRepository() {
+		return dogRepository;
+	}
+
+	public void setDogRepository(DogRepository dogRepository) {
+		this.dogRepository = dogRepository;
+	}
+
 
 	public List<Dog> findAll() {
 	 	return dogRepository.findAll();
+	}
+	
+	@Transactional(readOnly = false)
+	public void save(Dog dog) {
+		dogRepository.save(dog);		
 	}
 }
