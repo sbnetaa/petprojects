@@ -5,19 +5,19 @@
 <title>Собаки</title>
  <style>
    table { 
-    width: 100%; /* Ширина таблицы */
-    border: 4px double black; /* Рамка вокруг таблицы */
-    border-collapse: collapse; /* Отображать только одинарные линии */
+    width: 100%; 
+    border: 4px double black; 
+    border-collapse: collapse; 
    }
    th { 
-    text-align: left; /* Выравнивание по левому краю */
-    background: #ccc; /* Цвет фона ячеек */
-    padding: 5px; /* Поля вокруг содержимого ячеек */
-    border: 1px solid black; /* Граница вокруг ячеек */
+    text-align: left; 
+    background: #ccc; 
+    padding: 5px; 
+    border: 1px solid black; 
    }
    td { 
-    padding: 5px; /* Поля вокруг содержимого ячеек */
-    border: 1px solid black; /* Граница вокруг ячеек */
+    padding: 5px; 
+    border: 1px solid black; 
    }
   </style>
 </head>
@@ -36,6 +36,7 @@
 		<td><b>ID</b></td>
 		<td><b>Кличка</b></td>
 		<td><b>Имя</b></td>
+		<td><b>Пол</b></td>
 		<td><b>Порода</b></td>
 		<td><b>Дата рождения</b></td>
 		<td><b>Щенки</b></td>
@@ -45,18 +46,27 @@
 			<td><input type="submit" value="Добавить"/></td>
 			<td><input type="text" th:field="*{dog.nickname}" id="dog.nickname"/></td>
 			<td><input type="text" th:field="*{dog.name}" id="dog.name"/></td>
-			<td><input type="text" th:field="*{dog.breed}" id="dog.breed"/></td>
+			<td><select th:field="*{dog.gender}" id="dog.gender">
+    				<option th:each="genderType : ${T(com.example.demo6.entities.Dog.Gender).values()}" 
+        				th:value="${genderType}" th:text="${genderType.type}"></option>
+				</select></td>
+			<td><select th:field="*{dog.breed}" id="dog.breed">
+    				<option th:each="breedType : ${T(com.example.demo6.entities.Dog.Breed).values()}" 
+        				th:value="${breedType}" th:text="${breedType.type}"></option>
+				</select>
+			</td>
 			<td><input type="text" th:field="*{dog.dateOfBirth}" id="dog.dateOfBirth"/></td>
 			<td><input type="text" th:field="*{dog.puppies}" id="dog.puppies"/></td>
 			</form>
 			</tr>
-<tr  th:each="dog : ${dogs}">
+<tr th:each="dog : ${dogs}">
        <td th:text="${dog.id}">1</td>
-       <td th:text="${dog.nickname}">Title ...</a></td>
-       <td th:text="${dog.name}">Text ...</td>
-       <td th:text="${dog.breed}">Title ...</a></td>
-       <td th:text="${dog.dateOfBirth}">Text ...</td>
-       <td th:text="${dog.puppies}">Text ...</td>
+       <td th:text="${dog.nickname}"></td>
+       <td th:text="${dog.name}"></td>
+       <td th:text="${dog.gender.getType()}"></td>
+       <td th:text="${dog.breed.getType()}"></td>
+       <td th:text="${dog.dateOfBirth}"></td>
+       <td th:text="${dog.puppies}"></td>
 		<br>
  </tr>
  </table>

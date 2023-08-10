@@ -9,9 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.demo6.entities.Dog;
 import com.example.demo6.repositories.DogRepository;
 
-import lombok.Getter;
-import lombok.Setter;
-
 @Service
 @Transactional(readOnly = true)
 public class DogService {
