@@ -1,7 +1,13 @@
 package com.example.demo6.entities;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -10,6 +16,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.Size;
 
 
@@ -29,9 +37,18 @@ public class Dog {
 	@Enumerated(EnumType.STRING)
 	private Breed breed;
 	@Column(name = "date_of_birth")
-	private LocalDateTime dateOfBirth;
+	@Basic
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "dd-MM-yyyy")
+	private LocalDate dateOfBirth;
 	@Column(name = "puppies_count")
 	private int puppies;
+	@Column(name = "modified_at")
+	@LastModifiedDate
+	private LocalDateTime modifiedAt = LocalDateTime.now().withNano(0);	
+	@Column (name = "created_at")
+	@CreatedDate
+	private LocalDateTime createdAt = LocalDateTime.now().withNano(0);
 	
 	public Long getId() {
 		return id;
@@ -73,11 +90,11 @@ public class Dog {
 		this.breed = breed;
 	}
 
-	public LocalDateTime getDateOfBirth() {
+	public LocalDate getDateOfBirth() {
 		return dateOfBirth;
 	}
 
-	public void setDateOfBirth(LocalDateTime dateOfBirth) {
+	public void setDateOfBirth(LocalDate dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
 
@@ -87,6 +104,22 @@ public class Dog {
 
 	public void setPuppies(int puppies) {
 		this.puppies = puppies;
+	}	
+	
+	public LocalDateTime getModifiedAt() {
+		return modifiedAt;
+	}
+
+	public void setModifiedAt(LocalDateTime modifiedAt) {
+		this.modifiedAt = modifiedAt;
+	}
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
 	}
 
 	public Dog() {}

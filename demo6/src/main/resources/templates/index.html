@@ -40,6 +40,8 @@
 		<td><b>Порода</b></td>
 		<td><b>Дата рождения</b></td>
 		<td><b>Щенки</b></td>
+		<td><b>Добавлено</b></td>
+		<td><b>Изменено</b></td>
 		</tr>
 		<tr>
 			<form modelAttribute="dog" th:method="POST" th:object:"${dog}" th:action="@{/}" action="#">
@@ -55,18 +57,21 @@
         				th:value="${breedType}" th:text="${breedType.type}"></option>
 				</select>
 			</td>
-			<td><input type="text" th:field="*{dog.dateOfBirth}" id="dog.dateOfBirth"/></td>
+			<td><input type="date" th:field="*{dog.dateOfBirth}" id="dog.dateOfBirth"/></td>
 			<td><input type="text" th:field="*{dog.puppies}" id="dog.puppies"/></td>
+			<td></td>
 			</form>
 			</tr>
 <tr th:each="dog : ${dogs}">
-       <td th:text="${dog.id}">1</td>
+       <td th:text="${dog.id}"></td>
        <td th:text="${dog.nickname}"></td>
        <td th:text="${dog.name}"></td>
        <td th:text="${dog.gender.getType()}"></td>
        <td th:text="${dog.breed.getType()}"></td>
        <td th:text="${dog.dateOfBirth}"></td>
        <td th:text="${dog.puppies}"></td>
+       <td th:text="${dog.modifiedAt}"></td>
+       <td th:text="${dog.createdAt}"></td>
 		<br>
  </tr>
  </table>
