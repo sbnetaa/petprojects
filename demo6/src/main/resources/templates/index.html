@@ -20,17 +20,26 @@
     border: 1px solid black; 
    }
   </style>
+  
 </head>
 <body>
+	
 <div th:if="${isUserAuth}">Выйти</div>
 <div th:unless="${isUserAuth}">Войти</div>
 <div sec:authorize="isAuthenticated()">
-    <p>user@ukr.net</p> <a href="/logout">Logout</a>  
+ <a href="/logout">Logout</a>  
 </div>
 
 <div sec:authorize="!isAuthenticated()">
     <p>Hello, guest! Please <a href="/login">Login</a> or <a href="/signup">SignUp</a></p> 
 </div>
+
+<div>Выберите сущность:
+	<form method="post" action="">
+		<input type="radio" id="dogChoice" value="dog"/><label for="dogChoice">Собаки</label>
+		</form>
+</div>
+<div><form th:method="GET" th:action="@{/search}"><input type="text" placeholder="по имени или кличке"/ name="searchRequest" th:value="${searchRequest}"><input type="submit" value="Найти"/></form>
 <table border="1" color="black" border-collapse="collapse">
 	<tr>
 		<td><b>ID</b></td>
@@ -42,39 +51,71 @@
 		<td><b>Щенки</b></td>
 		<td><b>Добавлено</b></td>
 		<td><b>Изменено</b></td>
+		<td>Изменить</td>
+		<td>Удалить</td>
 		</tr>
 		<tr>
 			<form modelAttribute="dog" th:method="POST" th:object:"${dog}" th:action="@{/}" action="#">
 			<td><input type="submit" value="Добавить"/></td>
-			<td><input type="text" th:field="*{dog.nickname}" id="dog.nickname"/></td>
-			<td><input type="text" th:field="*{dog.name}" id="dog.name"/></td>
-			<td><select th:field="*{dog.gender}" id="dog.gender">
+			<td><input type="text" th:field="*{dog.nickname}"/></td>
+			<td><input type="text" th:field="*{dog.name}"/></td>
+			<td><select th:field="*{dog.gender}">
     				<option th:each="genderType : ${T(com.example.demo6.entities.Dog.Gender).values()}" 
         				th:value="${genderType}" th:text="${genderType.type}"></option>
 				</select></td>
-			<td><select th:field="*{dog.breed}" id="dog.breed">
+			<td><select th:field="*{dog.breed}">
     				<option th:each="breedType : ${T(com.example.demo6.entities.Dog.Breed).values()}" 
         				th:value="${breedType}" th:text="${breedType.type}"></option>
 				</select>
 			</td>
-			<td><input type="date" th:field="*{dog.dateOfBirth}" id="dog.dateOfBirth"/></td>
-			<td><input type="text" th:field="*{dog.puppies}" id="dog.puppies"/></td>
+			<td><input type="date" th:field="*{dog.dateOfBirth}"/></td>
+			<td><input type="number" th:field="*{dog.puppies}"/></td>
+			<td></td>
 			<td></td>
 			</form>
-			</tr>
-<tr th:each="dog : ${dogs}">
-       <td th:text="${dog.id}"></td>
-       <td th:text="${dog.nickname}"></td>
-       <td th:text="${dog.name}"></td>
-       <td th:text="${dog.gender.getType()}"></td>
-       <td th:text="${dog.breed.getType()}"></td>
-       <td th:text="${dog.dateOfBirth}"></td>
-       <td th:text="${dog.puppies}"></td>
-       <td th:text="${dog.modifiedAt}"></td>
-       <td th:text="${dog.createdAt}"></td>
-		<br>
- </tr>
+		</tr>
+		<tr th:each="dog : ${dogs}">
+	 		
+		 		<form id="edit" modelAttribute="dog" th:method="DELETE" th:object:"${dog}" th:action="@{/{id}(id=${dog.getId()})}" action="#">
+					 
+       				<td th:text="${dog.id}"></td>
+       				<td th:unless="${dog.isModifying}" th:text="${dog.nickname}"></td>
+       				<td th:if="${dog.isModifying}" th:text="${dog.nickname}"><input type="text" th:field="*{dog.nickname}"/></td>
+       				<td th:unless="${dog.isModifying}" th:text="${dog.name}"></td>
+       				<td th:if="${dog.isModifying}" th:text="${dog.name}"><input type="text" th:field="*{dog.name}"/></td>
+       				<td th:unless="${dog.isModifying}" th:text="${dog.gender.getType()}"></td>
+       				<td th:if="${dog.isModifying}"><select th:field="*{dog.gender}">
+    						<option th:each="genderType : ${T(com.example.demo6.entities.Dog.Gender).values()}" 
+        					th:value="${genderType}" th:text="${genderType.type}"></option>
+						</select></td>
+       				<td th:unless="${dog.isModifying}" th:text="${dog.breed.getType()}"></td>
+       				<td th:if="${dog.isModifying}"><select th:field="*{dog.breed}">
+    						<option th:each="breedType : ${T(com.example.demo6.entities.Dog.Breed).values()}" 
+        						th:value="${breedType}" th:text="${breedType.type}"></option>
+						</select></td>
+       				<td th:unless="${dog.isModifying}" th:text="${dog.dateOfBirth}"></td>
+       				<td th:if="${dog.isModifying}"><input type="date" th:field="*{dog.dateOfBirth}"/></td>
+       				<td th:unless="${dog.isModifying}" th:text="${dog.puppies}"></td>
+       				<td th:if="${dog.isModifying}"><input type="number" th:field="*{dog.puppies}"/></td>
+       				<td th:unless="${dog.isModifying}" th:text="${dog.modifiedAt}"></td>
+       				<td th:unless="${dog.isModifying}" th:text="${dog.createdAt}"></td>
+       				<td><input type="button" id="toedit" value="Изменить" onclick="toEdit()" form="edit"/></td>
+       				<td><input type="submit" value="Удалить"</td>      			      					
+       			</form>
+       			</tr>
+       			<tr>
+		   		
+       
+       			
+		
+ 			</tr>
  </table>
- 
+ <script>
+		toedit.onclick = function()
+			{
+				document.getElementById('eachDog').innerHTML = document.getElementById(document.getElementById('edit').value).innerHTML;
+				alert("pashet");
+			};
+	</script>
 </body>
 </html>

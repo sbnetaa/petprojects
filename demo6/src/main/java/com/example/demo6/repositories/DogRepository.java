@@ -1,9 +1,17 @@
 package com.example.demo6.repositories;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Repository;
 
 import com.example.demo6.entities.Dog;
 
 @Repository
-public interface DogRepository extends JpaRepository<Dog, Long> {}
+public interface DogRepository extends EntityRepository<Dog> {
+
+	List<Dog> findAll();
+	Optional<Dog> findById(Long id);
+	<D extends Dog> D save(D updatedDog);
+	void deleteById(Long id);
+}

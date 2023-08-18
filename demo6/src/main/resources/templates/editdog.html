@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Изменить собаку</title>
+ <style>
+   table { 
+    width: 100%; 
+    border: 4px double black; 
+    border-collapse: collapse; 
+   }
+   th { 
+    text-align: left; 
+    background: #ccc; 
+    padding: 5px; 
+    border: 1px solid black; 
+   }
+   td { 
+    padding: 5px; 
+    border: 1px solid black; 
+   }
+  </style>
+  
+</head>
+<body>
+	<table><tr><form id="edit" modelAttribute="dog" th:method="PATCH" th:object:"${dog}" th:action="@{/{id}(id=${dog.getId()})}">
+					 
+       				<td th:text="${dog.id}"></td>
+       				
+       				<td><input type="text" th:text="${dog.nickname}" th:field="*{dog.nickname}"/></td>
+       				
+       				<td><input type="text" th:text="${dog.name}" th:field="*{dog.name}"/></td>
+       				
+       				<td><select th:field="*{dog.gender}">
+    						<option th:each="genderType : ${T(com.example.demo6.entities.Dog.Gender).values()}" 
+        					th:value="${genderType}" th:text="${genderType.type}"></option>
+						</select></td>
+       				
+       				<td><select th:field="*{dog.breed}">
+    						<option th:each="breedType : ${T(com.example.demo6.entities.Dog.Breed).values()}" 
+        						th:value="${breedType}" th:text="${breedType.type}"></option>
+						</select></td>
+       				
+       				<td><input type="date" th:field="*{dog.dateOfBirth}"/></td>
+       				
+       				<td><input type="number" th:field="*{dog.puppies}"/></td>
+       				
+       				
+       				<td><input type="submit" id="toedit" value="Изменить" form="edit"/></td>       			      					
+       			</form></tr></table>
+</body>
+</html>

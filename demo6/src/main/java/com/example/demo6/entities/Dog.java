@@ -5,8 +5,10 @@ import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+//import org.springframework.data.annotation.Transient;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,7 +25,9 @@ import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "dogs")
-public class Dog {
+public class Dog extends AbstractEntity {
+	//@Transient
+	private transient static final String tableName = "dogs";
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -46,9 +50,12 @@ public class Dog {
 	@Column(name = "modified_at")
 	@LastModifiedDate
 	private LocalDateTime modifiedAt = LocalDateTime.now().withNano(0);	
-	@Column (name = "created_at")
+	@Column(name = "created_at")
 	@CreatedDate
 	private LocalDateTime createdAt = LocalDateTime.now().withNano(0);
+	@Nullable
+	//@Transient
+	private transient boolean isModifying;
 	
 	public Long getId() {
 		return id;
@@ -121,8 +128,28 @@ public class Dog {
 	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
+	
 
-	public Dog() {}
+	public boolean isModifying() {
+		return isModifying;
+	}
+
+	public void setModifying(boolean isModifying) {
+		this.isModifying = isModifying;
+	}
+	
+	
+
+	@Override
+	public String toString() {
+		return "Dog [id=" + id + ", nickname=" + nickname + ", name=" + name + ", gender=" + gender + ", breed=" + breed
+				+ ", dateOfBirth=" + dateOfBirth + ", puppies=" + puppies + ", modifiedAt=" + modifiedAt
+				+ ", createdAt=" + createdAt + ", isModifying=" + isModifying + "]";
+	}
+
+	public Dog() {
+		this.createdAt = LocalDateTime.now().withNano(0);
+	}
 	
 	public enum Breed {
 		WHWT("Вест Хайленд Вайт Терьер"), 
