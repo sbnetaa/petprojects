@@ -1,11 +1,10 @@
 package com.example.demo6.entities;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-//import org.springframework.data.annotation.Transient;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.annotation.Nullable;
@@ -34,11 +33,14 @@ public class Dog extends AbstractEntity {
 	@Size(min = 3, max = 30, message = "Nickname should be between 3 and 30 characters long")
 	private String nickname;
 	private String name;
-	@Column(columnDefinition = "varchar(10)")
+	@Column(columnDefinition = "character varying (10)")
 	@Enumerated(EnumType.STRING)	
+	@Nullable
 	private Gender gender;
-	@Column(columnDefinition = "varchar(30)")
+	private transient boolean isMale = false;
+	@Column(columnDefinition = "character varying (20)")
 	@Enumerated(EnumType.STRING)
+	@Nullable
 	private Breed breed;
 	@Column(name = "date_of_birth")
 	@Basic
@@ -49,13 +51,11 @@ public class Dog extends AbstractEntity {
 	private int puppies;
 	@Column(name = "modified_at")
 	@LastModifiedDate
-	private LocalDateTime modifiedAt = LocalDateTime.now().withNano(0);	
+	private OffsetDateTime modifiedAt;// = LocalDateTime.now().withNano(0);	
 	@Column(name = "created_at")
 	@CreatedDate
-	private LocalDateTime createdAt = LocalDateTime.now().withNano(0);
-	@Nullable
-	//@Transient
-	private transient boolean isModifying;
+	private OffsetDateTime createdAt;// = OffsetDateTime.now().withNano(0);
+	private transient boolean isModifying = false;
 	
 	public Long getId() {
 		return id;
@@ -113,19 +113,19 @@ public class Dog extends AbstractEntity {
 		this.puppies = puppies;
 	}	
 	
-	public LocalDateTime getModifiedAt() {
+	public OffsetDateTime getModifiedAt() {
 		return modifiedAt;
 	}
 
-	public void setModifiedAt(LocalDateTime modifiedAt) {
+	public void setModifiedAt(OffsetDateTime modifiedAt) {
 		this.modifiedAt = modifiedAt;
 	}
 
-	public LocalDateTime getCreatedAt() {
+	public OffsetDateTime getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(LocalDateTime createdAt) {
+	public void setCreatedAt(OffsetDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 	
@@ -138,7 +138,27 @@ public class Dog extends AbstractEntity {
 		this.isModifying = isModifying;
 	}
 	
-	
+
+	public static String getTablename() {
+		return tableName;
+	}
+
+	public Dog(Long id,
+			@Size(min = 3, max = 30, message = "Nickname should be between 3 and 30 characters long") String nickname,
+			String name, Gender gender, Breed breed, LocalDate dateOfBirth, int puppies, OffsetDateTime modifiedAt,
+			OffsetDateTime createdAt) {
+		super();
+		this.id = id;
+		this.nickname = nickname;
+		this.name = name;
+		this.gender = gender;
+		this.breed = breed;
+		this.dateOfBirth = dateOfBirth;
+		this.puppies = puppies;
+		this.modifiedAt = modifiedAt;
+		this.createdAt = createdAt;
+		
+	}
 
 	@Override
 	public String toString() {
@@ -147,9 +167,7 @@ public class Dog extends AbstractEntity {
 				+ ", createdAt=" + createdAt + ", isModifying=" + isModifying + "]";
 	}
 
-	public Dog() {
-		this.createdAt = LocalDateTime.now().withNano(0);
-	}
+	public Dog(){}
 	
 	public enum Breed {
 		WHWT("Вест Хайленд Вайт Терьер"), 
@@ -163,6 +181,13 @@ public class Dog extends AbstractEntity {
 		String type;
 		Breed(String type){this.type = type;}
 		public String getType(){return type;}
+		
+		public static Breed getBreedName(String enumType) {
+			for (Breed breedName : Breed.values()) {
+				if (breedName.getType().equals(enumType)) return breedName;
+			}
+			return null;
+		}
 	}
 	
 	public enum Gender {
@@ -172,5 +197,12 @@ public class Dog extends AbstractEntity {
 		String type;
 		Gender(String type){this.type = type;}
 		public String getType(){return type;}
+		
+		public static Gender getGenderName(String genderType) {
+			if (genderType.equals("Мальчик")) return MALE;
+			if (genderType.equals("Девочка")) return FEMALE;
+			return null;
+		}
+		
 	}
 }

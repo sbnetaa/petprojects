@@ -16,5 +16,6 @@ public class Demo6Application {
     HiddenHttpMethodFilter hiddenHttpMethodFilter() {
         return new HiddenHttpMethodFilter();
     }
+	
 
 }

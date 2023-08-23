@@ -1,18 +1,20 @@
 package com.example.demo6.service;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo6.entities.AbstractEntity;
 import com.example.demo6.repositories.EntityRepository;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+
 
 @Transactional(readOnly = true)
 public abstract class AbstractEntityServiceImpl<E extends AbstractEntity, R extends EntityRepository<E>> implements EntityService<E> {
-	private R repository;
+	private R repository;	
+
 	
 	
 	@Autowired

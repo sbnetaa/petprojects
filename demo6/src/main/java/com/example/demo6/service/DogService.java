@@ -1,16 +1,13 @@
 package com.example.demo6.service;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.example.demo6.entities.Dog;
 import com.example.demo6.repositories.DogRepository;
+import com.example.demo6.search.Search;
 
 @Service
 public class DogService extends AbstractEntityServiceImpl<Dog, DogRepository> {
@@ -20,29 +17,27 @@ public class DogService extends AbstractEntityServiceImpl<Dog, DogRepository> {
 	public DogService(DogRepository repository, DogRepository dogRepository) {
 		super(repository);
 		this.dogRepository = dogRepository;
+		
+		
 	}
-
-	/*public List<Dog> findAll(){
-		if (searchRequest != null) return this.find(searchRequest);
-		return dogRepository.findAll();
+	
+	public List<Dog> find(Search searchRequest) {
+		return searchRequest.getResults();
+	}
+		
+	/*
+	 Здесь происходит выборка ВСЕХ собак из БД, и только затем их сортировка, и только затем их отсеивание. Отказался.
+	public List<Dog> find(String searchRequest, String searchBreed, String sortBy, boolean sortAsc){
+		
+		Sort sort = Sort.by(sortBy).ascending();
+		if (!sortAsc) sort = Sort.by(sortBy).descending();
+			return dogRepository.findAll(sort).stream()
+				.filter(dog -> ((searchRequest == null) || (dog.getName().toLowerCase().contains(searchRequest.toLowerCase()) 
+						|| dog.getNickname().toLowerCase().contains(searchRequest.toLowerCase())))
+						&& (searchBreed == null || searchBreed.equals("all") || dog.getBreed().getType().contains(searchBreed)))
+				.collect(Collectors.toList());						
 	}
 	*/
-	
-	public List<Dog> find(String searchRequest){
-		
-		if (searchRequest != null) return dogRepository.findAll().stream()
-				.filter(dog -> dog.getName().toLowerCase().contains(searchRequest.toLowerCase()) 
-				|| dog.getNickname().toLowerCase().contains(searchRequest.toLowerCase()))
-				.collect(Collectors.toList());
-		return dogRepository.findAll();
-		
-		
-		/*if (searchRequest != null) return dogRepository.findAll().stream()
-				.filter(dog -> StringUtils.containsIgnoreCase(dog.getName(), searchRequest) || dog.getNickname().contains(searchRequest))
-				.collect(Collectors.toList());
-		return dogRepository.findAll();
-		*/
-	}
 
 	public Dog save(Dog dog){
 		return dogRepository.save(dog);
@@ -58,7 +53,7 @@ public class DogService extends AbstractEntityServiceImpl<Dog, DogRepository> {
 		dogToUpdate.setBreed(updatedDog.getBreed());
 		dogToUpdate.setDateOfBirth(updatedDog.getDateOfBirth());
 		dogToUpdate.setPuppies(updatedDog.getPuppies());
-		dogToUpdate.setModifiedAt(LocalDateTime.now());
+		dogToUpdate.setModifiedAt(OffsetDateTime.now());
 		System.out.println(dogToUpdate.toString());
 		System.out.println(updatedDog.toString());
 		Dog savedDog = dogRepository.save(dogToUpdate);
@@ -75,4 +70,6 @@ public class DogService extends AbstractEntityServiceImpl<Dog, DogRepository> {
 		return dogRepository.findById((long) id).get();
 		
 	}
+
+	
 }

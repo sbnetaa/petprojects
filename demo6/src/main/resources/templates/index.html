@@ -39,7 +39,54 @@
 		<input type="radio" id="dogChoice" value="dog"/><label for="dogChoice">Собаки</label>
 		</form>
 </div>
-<div><form th:method="GET" th:action="@{/search}"><input type="text" placeholder="по имени или кличке"/ name="searchRequest" th:value="${searchRequest}"><input type="submit" value="Найти"/></form>
+<div>
+	<form th:method="GET" th:object:"${searchRequest}" th:action="@{/search}">
+		<select th:field="*{searchRequest.tableName}"> 
+			<option th:value="dogs">Собаки</option>
+			</select>
+			Сортировать по<select th:field="*{searchRequest.orderBy}"> 
+			<option th:value="id">ID</option>
+			<option th:value="nickname">Кличке</option>
+			<option th:value="name">Имени</option>
+			<option th:value="puppies">Кол-ву щенков</option>
+			<option th:value="dateOfBirth">Дате рождения</option>
+			<option th:value="createdAt">Дате добавления</option>
+			<option th:value="modifiedAt">Дате изменения</option>
+			</select>
+			<select th:field="*{searchRequest.descDirection}">
+				<option th:value="false">Возрастанию</option>
+				<option th:value="true">Убыванию</option>
+				</select>
+			</div>
+		<table>
+		
+		<tr>
+			<td>
+				<input type="number" placeholder="не менее щенков" th:field="*{searchRequest.minPuppiesCount}"> Минимум щенков
+			</td>
+			<td>Порода:<select th:field="*{searchRequest.breed}">
+				<option value="all">Все</option>
+    				<option th:each="breedType : ${T(com.example.demo6.entities.Dog.Breed).values()}" 
+        				th:value="${breedType.name()}" th:text="${breedType.type}"></option>
+				</select>
+	
+	
+	<td>Дата рождения с<input type="date" placeholder="Дата рождения с" th:field="*{searchRequest.dateOfBirthFrom}"/></td>
+	<td>Дата добавления с<input type="date" placeholder="Дата добавления с" th:field="*{searchRequest.dateOfCreationFrom}"/></td>
+	<td>Дата изменения с<input type="date" placeholder="Дата изменения с" th:field="*{searchRequest.dateOfModificationFrom}"/></td>
+	</tr>
+	<tr><td><input type="text" placeholder="по имени, кличке или id" th:field="*{searchRequest.nicknameOrName}"/></td>
+	
+	<td>Пол:<select th:field="*{searchRequest.gender}">
+					<option value="all">Все</option>
+    				<option th:each="genderType : ${T(com.example.demo6.entities.Dog.Gender).values()}" 
+        				th:value="${genderType.name()}" th:text="${genderType.type}"></option>
+				</select></td>
+	<td>Дата рождения по<input type="date" placeholder="Дата рождения с" th:field="*{searchRequest.dateOfBirthTo}"/></td>
+	<td>Дата добавления по<input type="date" placeholder="Дата добавления с" th:field="*{searchRequest.dateOfCreationTo}"/></td>
+	<td>Дата изменения по<input type="date" placeholder="Дата изменения с" th:field="*{searchRequest.dateOfModificationTo}"/></td>
+			
+	<input type="submit" value="Найти"/></tr></table></form>
 <table border="1" color="black" border-collapse="collapse">
 	<tr>
 		<td><b>ID</b></td>
@@ -83,12 +130,12 @@
        				<td th:if="${dog.isModifying}" th:text="${dog.nickname}"><input type="text" th:field="*{dog.nickname}"/></td>
        				<td th:unless="${dog.isModifying}" th:text="${dog.name}"></td>
        				<td th:if="${dog.isModifying}" th:text="${dog.name}"><input type="text" th:field="*{dog.name}"/></td>
-       				<td th:unless="${dog.isModifying}" th:text="${dog.gender.getType()}"></td>
+       				<td th:unless="${dog.isModifying}" th:text="${dog.gender.type}"></td>
        				<td th:if="${dog.isModifying}"><select th:field="*{dog.gender}">
     						<option th:each="genderType : ${T(com.example.demo6.entities.Dog.Gender).values()}" 
         					th:value="${genderType}" th:text="${genderType.type}"></option>
 						</select></td>
-       				<td th:unless="${dog.isModifying}" th:text="${dog.breed.getType()}"></td>
+       				<td th:unless="${dog.isModifying}" th:text="${dog.breed.type}"></td>
        				<td th:if="${dog.isModifying}"><select th:field="*{dog.breed}">
     						<option th:each="breedType : ${T(com.example.demo6.entities.Dog.Breed).values()}" 
         						th:value="${breedType}" th:text="${breedType.type}"></option>
