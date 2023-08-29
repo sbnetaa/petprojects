@@ -72,8 +72,8 @@
 	
 	
 	<td>Дата рождения с<input type="date" placeholder="Дата рождения с" th:field="*{searchRequest.dateOfBirthFrom}"/></td>
-	<td>Дата добавления с<input type="date" placeholder="Дата добавления с" th:field="*{searchRequest.dateOfCreationFrom}"/></td>
-	<td>Дата изменения с<input type="date" placeholder="Дата изменения с" th:field="*{searchRequest.dateOfModificationFrom}"/></td>
+	<td>Дата добавления с<input type="datetime-local" th:field="*{searchRequest.dateOfCreationFrom}"/></td>
+	<td>Дата изменения с<input type="datetime-local" th:field="*{searchRequest.dateOfModificationFrom}"/></td>
 	</tr>
 	<tr><td><input type="text" placeholder="по имени, кличке или id" th:field="*{searchRequest.nicknameOrName}"/></td>
 	
@@ -83,8 +83,8 @@
         				th:value="${genderType.name()}" th:text="${genderType.type}"></option>
 				</select></td>
 	<td>Дата рождения по<input type="date" placeholder="Дата рождения с" th:field="*{searchRequest.dateOfBirthTo}"/></td>
-	<td>Дата добавления по<input type="date" placeholder="Дата добавления с" th:field="*{searchRequest.dateOfCreationTo}"/></td>
-	<td>Дата изменения по<input type="date" placeholder="Дата изменения с" th:field="*{searchRequest.dateOfModificationTo}"/></td>
+	<td>Дата добавления по<input type="datetime-local" th:field="*{searchRequest.dateOfCreationTo}"/></td>
+	<td>Дата изменения по<input type="datetime-local" th:field="*{searchRequest.dateOfModificationTo}"/></td>
 			
 	<input type="submit" value="Найти"/></tr></table></form>
 <table border="1" color="black" border-collapse="collapse">

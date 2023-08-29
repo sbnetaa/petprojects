@@ -1,9 +1,12 @@
 package com.example.demo6.search;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -26,10 +29,14 @@ public class Search {
 		private Integer minPuppiesCount;
 		private LocalDate dateOfBirthFrom;
 		private LocalDate dateOfBirthTo;
-		private OffsetDateTime dateOfCreationFrom;
-		private OffsetDateTime dateOfCreationTo;
-		private OffsetDateTime dateOfModificationFrom;
-		private OffsetDateTime dateOfModificationTo;
+		@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "dd-MM-yyyy'T'hh:mm:ss")
+		private LocalDateTime dateOfCreationFrom;
+		@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "dd-MM-yyyy'T'hh:mm:ss")
+		private LocalDateTime dateOfCreationTo;
+		@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "dd-MM-yyyy'T'hh:mm:ss")
+		private LocalDateTime dateOfModificationFrom;
+		@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "dd-MM-yyyy'T'hh:mm:ss")
+		private LocalDateTime dateOfModificationTo;
 		private StringBuilder orderBy;
 		private boolean descDirection;
 		
@@ -41,8 +48,8 @@ public class Search {
 		
 		public Search(StringBuilder tableName, Integer id, StringBuilder nicknameOrName, StringBuilder breed, StringBuilder gender,
 				Integer minPuppiesCount, LocalDate dateOfBirthFrom, LocalDate dateOfBirthTo,
-				OffsetDateTime dateOfCreationFrom, OffsetDateTime dateOfCreationTo, OffsetDateTime dateOfModificationFrom,
-				OffsetDateTime dateOfModificationTo, StringBuilder orderBy, boolean descDirection) {
+				LocalDateTime dateOfCreationFrom, LocalDateTime dateOfCreationTo, LocalDateTime dateOfModificationFrom,
+				LocalDateTime dateOfModificationTo, StringBuilder orderBy, boolean descDirection) {
 			super();
 			this.tableName = tableName;
 			this.id = id;
@@ -78,7 +85,6 @@ public class Search {
 						));
 			}		
 			
-			System.out.println(nicknameOrName);
 			if (breed != null && !breed.isEmpty() && !breed.toString().equals("all")) predicates.add(cb.equal(root.get("breed"), Dog.Breed.valueOf(breed.toString())));
 			if (gender != null && !gender.isEmpty() && !gender.toString().equals("all")) predicates.add(cb.equal(root.get("gender"), Dog.Gender.valueOf(gender.toString())));
 			if (minPuppiesCount != null && minPuppiesCount > 0) predicates.add(cb.greaterThanOrEqualTo(root.get("puppies"), minPuppiesCount));
@@ -95,7 +101,7 @@ public class Search {
 					cq.orderBy(cb.asc(root.get(orderBy.toString())));
 				}	
 			}
-			System.out.println("predicates size is " + predicates.size());
+			
 			if (!predicates.isEmpty()) {
 				cq.select(root).where(predicates.toArray(new Predicate[0]));
 			} else {
@@ -171,35 +177,35 @@ public class Search {
 			this.dateOfBirthTo = dateOfBirthTo;
 		}
 
-		public OffsetDateTime getDateOfCreationFrom() {
+		public LocalDateTime getDateOfCreationFrom() {
 			return dateOfCreationFrom;
 		}
 
-		public void setDateOfCreationFrom(OffsetDateTime dateOfCreationFrom) {
+		public void setDateOfCreationFrom(LocalDateTime dateOfCreationFrom) {
 			this.dateOfCreationFrom = dateOfCreationFrom;
 		}
 
-		public OffsetDateTime getDateOfCreationTo() {
+		public LocalDateTime getDateOfCreationTo() {
 			return dateOfCreationTo;
 		}
 
-		public void setDateOfCreationTo(OffsetDateTime dateOfCreationTo) {
+		public void setDateOfCreationTo(LocalDateTime dateOfCreationTo) {
 			this.dateOfCreationTo = dateOfCreationTo;
 		}
 
-		public OffsetDateTime getDateOfModificationFrom() {
+		public LocalDateTime getDateOfModificationFrom() {
 			return dateOfModificationFrom;
 		}
 
-		public void setDateOfModificationFrom(OffsetDateTime dateOfModificationFrom) {
+		public void setDateOfModificationFrom(LocalDateTime dateOfModificationFrom) {
 			this.dateOfModificationFrom = dateOfModificationFrom;
 		}
 
-		public OffsetDateTime getDateOfModificationTo() {
+		public LocalDateTime getDateOfModificationTo() {
 			return dateOfModificationTo;
 		}
 
-		public void setDateOfModificationTo(OffsetDateTime dateOfModificationTo) {
+		public void setDateOfModificationTo(LocalDateTime dateOfModificationTo) {
 			this.dateOfModificationTo = dateOfModificationTo;
 		}
 

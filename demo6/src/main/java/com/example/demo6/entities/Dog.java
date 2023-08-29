@@ -1,16 +1,17 @@
 package com.example.demo6.entities;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
-
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
@@ -24,9 +25,9 @@ import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "dogs")
+@EntityListeners(AuditingEntityListener.class)
 public class Dog extends AbstractEntity {
-	//@Transient
-	private transient static final String tableName = "dogs";
+	private transient static final String TABLE_NAME = "dogs";
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -35,12 +36,10 @@ public class Dog extends AbstractEntity {
 	private String name;
 	@Column(columnDefinition = "character varying (10)")
 	@Enumerated(EnumType.STRING)	
-	@Nullable
 	private Gender gender;
-	private transient boolean isMale = false;
+	//private transient boolean isMale = false;
 	@Column(columnDefinition = "character varying (20)")
 	@Enumerated(EnumType.STRING)
-	@Nullable
 	private Breed breed;
 	@Column(name = "date_of_birth")
 	@Basic
@@ -50,11 +49,11 @@ public class Dog extends AbstractEntity {
 	@Column(name = "puppies_count")
 	private int puppies;
 	@Column(name = "modified_at")
-	@LastModifiedDate
-	private OffsetDateTime modifiedAt;// = LocalDateTime.now().withNano(0);	
+	@UpdateTimestamp
+	private LocalDateTime modifiedAt;	
 	@Column(name = "created_at")
-	@CreatedDate
-	private OffsetDateTime createdAt;// = OffsetDateTime.now().withNano(0);
+	@CreationTimestamp
+	private LocalDateTime createdAt;
 	private transient boolean isModifying = false;
 	
 	public Long getId() {
@@ -113,19 +112,19 @@ public class Dog extends AbstractEntity {
 		this.puppies = puppies;
 	}	
 	
-	public OffsetDateTime getModifiedAt() {
+	public LocalDateTime getModifiedAt() {
 		return modifiedAt;
 	}
 
-	public void setModifiedAt(OffsetDateTime modifiedAt) {
+	public void setModifiedAt(LocalDateTime modifiedAt) {
 		this.modifiedAt = modifiedAt;
 	}
 
-	public OffsetDateTime getCreatedAt() {
+	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(OffsetDateTime createdAt) {
+	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 	
@@ -140,13 +139,14 @@ public class Dog extends AbstractEntity {
 	
 
 	public static String getTablename() {
-		return tableName;
+		return TABLE_NAME;
 	}
 
 	public Dog(Long id,
 			@Size(min = 3, max = 30, message = "Nickname should be between 3 and 30 characters long") String nickname,
-			String name, Gender gender, Breed breed, LocalDate dateOfBirth, int puppies, OffsetDateTime modifiedAt,
-			OffsetDateTime createdAt) {
+			@Size(min = 3, max = 30, message = "Name should be between 3 and 30 characters long") String name, Gender gender
+			, Breed breed, LocalDate dateOfBirth, int puppies, LocalDateTime modifiedAt,
+			LocalDateTime createdAt) {
 		super();
 		this.id = id;
 		this.nickname = nickname;
