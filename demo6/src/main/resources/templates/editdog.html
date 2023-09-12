@@ -23,13 +23,14 @@
   
 </head>
 <body>
+	<a th:href="@{/}">На главную</a>
 	<table><tr><form id="edit" modelAttribute="dog" th:method="PATCH" th:object:"${dog}" th:action="@{/{id}(id=${dog.getId()})}">
 					 
        				<td th:text="${dog.id}"></td>
        				
-       				<td><input type="text" th:text="${dog.nickname}" th:field="*{dog.nickname}"/></td>
+       				<td><input type="text" th:field="*{dog.nickname}"/></td>
        				
-       				<td><input type="text" th:text="${dog.name}" th:field="*{dog.name}"/></td>
+       				<td><input type="text" th:field="*{dog.name}"/></td>
        				
        				<td><select th:field="*{dog.gender}">
     						<option th:each="genderType : ${T(com.example.demo6.entities.Dog.Gender).values()}" 
@@ -46,7 +47,8 @@
        				<td><input type="number" th:field="*{dog.puppies}"/></td>
        				
        				
-       				<td><input type="submit" id="toedit" value="Изменить" form="edit"/></td>       			      					
+       				<td><input type="submit" value="Сохранить"/></td>  
+       				<td><input type="reset" value="Сброс"/></td>      			      					
        			</form></tr></table>
 </body>
 </html>

@@ -2,12 +2,10 @@ package com.example.demo6.search;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
-
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -20,6 +18,7 @@ import jakarta.persistence.criteria.Root;
 
 import com.example.demo6.entities.Dog;
 
+
 public class Search {
 		private StringBuilder tableName;
 		private Integer id;
@@ -29,13 +28,13 @@ public class Search {
 		private Integer minPuppiesCount;
 		private LocalDate dateOfBirthFrom;
 		private LocalDate dateOfBirthTo;
-		@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "dd-MM-yyyy'T'hh:mm:ss")
+		@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "dd-MM-yyyy hh:mm:ss")
 		private LocalDateTime dateOfCreationFrom;
-		@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "dd-MM-yyyy'T'hh:mm:ss")
+		@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "dd-MM-yyyy hh:mm:ss")
 		private LocalDateTime dateOfCreationTo;
-		@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "dd-MM-yyyy'T'hh:mm:ss")
+		@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "dd-MM-yyyy hh:mm:ss")
 		private LocalDateTime dateOfModificationFrom;
-		@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "dd-MM-yyyy'T'hh:mm:ss")
+		@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "dd-MM-yyyy hh:mm:ss")
 		private LocalDateTime dateOfModificationTo;
 		private StringBuilder orderBy;
 		private boolean descDirection;
@@ -80,10 +79,10 @@ public class Search {
 			if (id != null) predicates.add(cb.like(root.get("id"), "%" + id + "%"));
 			if (nicknameOrName != null && !nicknameOrName.isEmpty()) {
 				predicates.add(cb.or(
-						cb.like(root.get("nickname"), "%" + nicknameOrName + "%")
-						, cb.like(root.get("name"), "%" + nicknameOrName + "%")
+						cb.like(cb.lower(root.get("nickname")), "%" + nicknameOrName.toString().toLowerCase() + "%")
+						, cb.like(cb.lower(root.get("name")), "%" + nicknameOrName.toString().toLowerCase() + "%")
 						));
-			}		
+			}
 			
 			if (breed != null && !breed.isEmpty() && !breed.toString().equals("all")) predicates.add(cb.equal(root.get("breed"), Dog.Breed.valueOf(breed.toString())));
 			if (gender != null && !gender.isEmpty() && !gender.toString().equals("all")) predicates.add(cb.equal(root.get("gender"), Dog.Gender.valueOf(gender.toString())));

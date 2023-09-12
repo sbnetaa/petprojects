@@ -24,20 +24,32 @@
 </head>
 <body>
 	
-<div th:if="${isUserAuth}">Выйти</div>
-<div th:unless="${isUserAuth}">Войти</div>
-<div sec:authorize="isAuthenticated()">
- <a href="/logout">Logout</a>  
+	<div sec:authorize="!isAuthenticated()">
+    <form name="f" th:action="@{/login}" method="post">
+        <fieldset>
+            <legend>Войдите</legend>
+            <div th:if="${param.error}" class="alert alert-error">
+                Неправильные имя или пароль.
+            </div>
+            <div th:if="${param.logout}" class="alert alert-success">
+                You have been logged out.
+            </div>
+            <label for="username">Имя</label>
+            <input type="text" id="username" name="username"/>
+            <label for="password">Пароль</label>
+            <input type="password" id="password" name="password"/>
+            <div class="form-actions">
+                <button type="submit" class="btn">Войти</button>
+                <a th:href="@{/registration}">Регистрация</a>
+            </div>
+        </fieldset>
+    </form>
 </div>
-
-<div sec:authorize="!isAuthenticated()">
-    <p>Hello, guest! Please <a href="/login">Login</a> or <a href="/signup">SignUp</a></p> 
+<div sec:authorize="isAuthenticated()">
+ <a href="/logout">Выйти</a>  
 </div>
 
 <div>Выберите сущность:
-	<form method="post" action="">
-		<input type="radio" id="dogChoice" value="dog"/><label for="dogChoice">Собаки</label>
-		</form>
 </div>
 <div>
 	<form th:method="GET" th:object:"${searchRequest}" th:action="@{/search}">
@@ -75,7 +87,7 @@
 	<td>Дата добавления с<input type="datetime-local" th:field="*{searchRequest.dateOfCreationFrom}"/></td>
 	<td>Дата изменения с<input type="datetime-local" th:field="*{searchRequest.dateOfModificationFrom}"/></td>
 	</tr>
-	<tr><td><input type="text" placeholder="по имени, кличке или id" th:field="*{searchRequest.nicknameOrName}"/></td>
+	<tr><td><input type="text" placeholder="по имени или кличке" th:field="*{searchRequest.nicknameOrName}"/></td>
 	
 	<td>Пол:<select th:field="*{searchRequest.gender}">
 					<option value="all">Все</option>
@@ -96,8 +108,8 @@
 		<td><b>Порода</b></td>
 		<td><b>Дата рождения</b></td>
 		<td><b>Щенки</b></td>
-		<td><b>Добавлено</b></td>
 		<td><b>Изменено</b></td>
+		<td><b>Добавлено</b></td>
 		<td>Изменить</td>
 		<td>Удалить</td>
 		</tr>
@@ -146,7 +158,8 @@
        				<td th:if="${dog.isModifying}"><input type="number" th:field="*{dog.puppies}"/></td>
        				<td th:unless="${dog.isModifying}" th:text="${dog.modifiedAt}"></td>
        				<td th:unless="${dog.isModifying}" th:text="${dog.createdAt}"></td>
-       				<td><input type="button" id="toedit" value="Изменить" onclick="toEdit()" form="edit"/></td>
+       				<td>
+       				<a th:href="@{/{id}(id=${dog.id})}">Изменить</a></td>
        				<td><input type="submit" value="Удалить"</td>      			      					
        			</form>
        			</tr>

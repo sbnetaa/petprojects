@@ -1,6 +1,5 @@
 package com.example.demo6.service;
 
-import java.time.OffsetDateTime;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,12 +11,13 @@ import com.example.demo6.search.Search;
 @Service
 public class DogService extends AbstractEntityServiceImpl<Dog, DogRepository> {
 	private DogRepository dogRepository;
+
 	
 	@Autowired
 	public DogService(DogRepository repository, DogRepository dogRepository) {
 		super(repository);
 		this.dogRepository = dogRepository;
-		
+
 		
 	}
 	
@@ -53,11 +53,7 @@ public class DogService extends AbstractEntityServiceImpl<Dog, DogRepository> {
 		dogToUpdate.setBreed(updatedDog.getBreed());
 		dogToUpdate.setDateOfBirth(updatedDog.getDateOfBirth());
 		dogToUpdate.setPuppies(updatedDog.getPuppies());
-		dogToUpdate.setModifiedAt(OffsetDateTime.now());
-		System.out.println(dogToUpdate.toString());
-		System.out.println(updatedDog.toString());
 		Dog savedDog = dogRepository.save(dogToUpdate);
-		System.out.println("done");
 		return savedDog;
 	}
 	
