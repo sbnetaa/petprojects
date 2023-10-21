@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Водители</title>
+<link href="../static/styles.css" th:href="@{/styles.css}" rel="stylesheet" />
+</head>
+<body>
+<a th:href="@{/boss/vehicles}">Машины и прицепы</a><br>
+<a th:href="@{/boss/drivers}">Водители</a><br>
+<a th:href="@{/boss/waybills}">Путевые листы</a><br>
+<a th:href="@{/boss/fuelData}">Нормы расхода топлива</a>
+<h1>Водители</h1>
+<h3><a th:href="@{/boss/drivers/add}">Добавить</a></h3>
+	<div th:each="driver : ${drivers}">
+		<form th:action="@{/boss/drivers/edit/{id}(id=*{driver.id})}">
+		<span th:text="${driver.fullName}"></span><button>Изменить</button></form>
+	
+	
+	</div>
+	<!--<table>
+		<tr>
+			<td>Добавить</td>
+			<td><b>ФИО</b></td>
+			<td><b>Удостоверение</b></td>
+			<td><b>Категория</b></td>
+			<td>Изменить<br>Удалить</td>			
+			</tr>
+			<tr><form th:method="POST" th:action="@{/boss/drivers/add}" th:object="${driver}">
+				<td><input type="submit" value="Добавить"/></td>
+				<td><input type="text" th:field="*{fullName}" placeholder="ФИО"/></td>
+				<td><input type="number" th:field="*{licenseNumber}" placeholder="Номер удостоверения"/></td>
+				<td><select th:field="*{category}">
+    						<option th:each="categoryName : ${T(com.terentyev.transportation.entities.Worker.Category).values()}" 
+        						th:value="${categoryName}" th:text="${categoryName.toString()}"></option>
+						</select></td>
+				</form></tr>
+			<tr th:each="driver : ${drivers}">
+				<form th:method="DELETE" th:object="${driver}" th:action="@{/boss/drivers/delete/{id}(id=*{id})}">				
+				<td></td>
+				<td th:text="${driver?.fullName} ?: ' '"></td>
+				<td><span th:unless="${driver.licenseNumber}==0" th:text="${driver?.licenseNumber} ?: ''"></span></td>
+				<td><span th:unless="${driver.category}==null" th:text="${driver.category.toString()}"></span></td>
+				<td><a th:href="@{/boss/drivers/edit/{id}(id=*{id})}">Изменить<br></a><input type="submit" value="Удалить"/></td>
+				</tr>
+		</table>-->
+
+</body>
+</html>

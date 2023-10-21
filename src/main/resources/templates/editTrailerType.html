@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Изменение типа прицепа</title>
+<link href="../static/styles.css" th:href="@{/styles.css}" rel="stylesheet" />
+</head>
+<body>
+	<a th:href="@{/boss/vehicles}">Машины и прицепы</a><br>
+<a th:href="@{/boss/drivers}">Водители</a><br>
+<a th:href="@{/boss/waybills}">Путевые листы</a><br>
+<a th:href="@{/boss/fuelData}">Нормы расхода топлива</a>
+<div>
+	<h1>Редактирование типа прицепа</h1>
+	<fieldset><div style="width: 100px; display: inline-block; vertical-align: top;">	
+<form th:method="PATCH" th:action="@{/boss/vehicles/trailerTypes/edit/{id}(id=*{id})}" th:object="${trailerType}">
+	<p>Название: <input type="text" th:field="*{name}"/></p>
+		<input type="submit" value="Сохранить"/>
+	</form></div>	
+	</fieldset>
+	<br><br><br>
+	<form th:action="@{/boss/vehicles/trailerTypes}"><button>Отмена</button></form>
+</div>
+</body>
+</html>

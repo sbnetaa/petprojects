@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Добавление машины/прицепа</title>
+<link href="../static/styles.css" th:href="@{/styles.css}" rel="stylesheet" />
+</head>
+<body>
+<a th:href="@{/boss/vehicles}">Машины и прицепы</a><br>
+<a th:href="@{/boss/drivers}">Водители</a><br>
+<a th:href="@{/boss/waybills}">Путевые листы</a><br>
+<a th:href="@{/boss/fuelData}">Нормы расхода топлива</a>
+<h1 th:unless="${displayTrailers}">Добавление машины</h1>
+<h1 th:if="${displayTrailers}">Добавление прицепа</h1>
+<form th:method="POST" th:action="@{/boss/vehicles/add}" th:object="${vehicle}">
+	<p>Марка: <input type="text" th:field="*{make}"/></p>
+	<p>Модель: <input type="text" th:field="*{model}"/></p>
+	<p>Номер: <input type="text" th:field="*{number}"/></p>
+	<p th:if="${displayTrailers}">Тип прицепа: <select th:field="*{type}">
+    	<option th:each="typeName : ${trailerTypes}" 
+        		th:value="${typeName}" th:text="${typeName.name}"></option>
+		</select><a th:href="@{/boss/trailers/addTrailerType}">Добавить</a></p>
+		<p th:unless="${displayTrailers}">Спидометр: <input type="number" th:field="*{speedometerReading}"/></p>
+		<p th:unless="${displayTrailers}">Топливо: <input type="number" th:field="*{remainingFuel}"/></p>
+		<p th:unless="${displayTrailers}">Расход топлива: Свой <label><input type="checkbox" th:field="*{individualFcr}" th:value="true"/></label> <input type="number" th:field="*{fuelConsumptionRate}" placeholder="л/100км"/></p>
+		<input type="hidden" th:field="*{trailer}" th:value="${displayTrailers == true}"/>
+		<input type="submit" value="Добавить"/>
+	</form> 
+</body>
+</html>

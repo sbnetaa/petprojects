@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Путевые листы</title>
+<link href="../static/styles.css" th:href="@{/styles.css}" rel="stylesheet" />
+</head>
+<body>
+	<a th:href="@{/boss/vehicles}">Машины и прицепы</a><br>
+<a th:href="@{/boss/drivers}">Водители</a><br>
+<a th:href="@{/boss/waybills}">Путевые листы</a><br>
+<a th:href="@{/boss/fuelData}">Нормы расхода топлива</a>
+	<div>
+	<h1>Путевые листы</h1><br>
+	<h3><a sec:authorize="hasRole('BOSS')" th:href="@{/boss/waybills/add}">Добавить</a></h3>
+	<table>
+		<tr>
+
+			<td><b>Номер листа</b></td>
+			<td><b>Дата путевки</b></td>
+			<td><b>Номер машины</b></td>
+			<td>Инфо<br><span sec:authorize="hasRole('BOSS')">Изменить</span></td>			
+			</tr>
+			
+			<tr th:each="waybill : ${waybills}">							
+				<td th:text="${waybill.number}"></td>
+				<td th:text="${waybill.dateOfTravel}"></td>
+				<td th:text="${waybill?.car?.number}"></td>
+				<td><a th:href="@{/boss/waybills/view/{id}(id=*{waybill.id})}">Инфо<br></a>
+					<form sec:authorize="hasRole('BOSS')" th:action="@{/boss/waybills/edit/{id}(id=*{waybill.id})}">
+						<button>Изменить</button></form></td>
+				</tr>
+		</table>
+</div>
+</body>
+</html>
+</body>
+</html>

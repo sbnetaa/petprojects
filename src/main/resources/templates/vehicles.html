@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Машины и прицепы</title>
+<link href="../static/styles.css" th:href="@{/styles.css}" rel="stylesheet" />
+</head>
+<body>
+	<center>
+
+		<div id="contentdiv" >
+				<div id="headerdiv">
+		</div>
+		<div style="margin: 40px;">
+	<a th:href="@{/boss/vehicles}">Машины и прицепы</a><br>
+<a th:href="@{/boss/drivers}">Водители</a><br>
+<a th:href="@{/boss/waybills}">Путевые листы</a><br>
+<a th:href="@{/boss/fuelData}">Нормы расхода топлива</a>
+	
+	<div><form th:method="POST" th:action="@{/boss/vehicles}">
+		<select name="searchForTrailers">
+			<option th:value="false">Машины</option>
+			<option th:value="true">Прицепы</option>			
+		</select>
+		<input type="submit" value="Выбрать"/>
+			</form>
+
+</div>
+		<h1 th:if="*{displayTrailers}">Прицепы</h1>
+		<h1 th:unless="*{displayTrailers}">Машины</h1>
+<div>
+	<div th:object="${nextFuelData}">
+Следующая общая норма расхода топлива: <span th:text="${nextFuelData?.consumptionRate}"></span>
+л/100км начиная с: <span th:text="${nextFuelData?.start}"></span>
+</div>
+
+</div>
+<a th:href="@{/boss/vehicles/add}"><h3>Добавить</h3></a>
+<div th:each="vehicle : ${vehicles}">
+		<a th:text="${vehicle.make} + ' ' + ${vehicle.model} + ' ' + ${vehicle.number}" th:href="@{/boss/vehicles/{id}(id=*{vehicle.id})}"></a>
+	
+	
+	</div>
+	<!--<table>
+		<tr>
+			<td>Добавить</td>
+			<td><b>Марка</b></td>
+			<td><b>Модель</b></td>
+			<td><b>Номер</b></td>			
+			<td th:unless="${displayTrailers}"><b>Спидометр</b></td>
+			<td th:unless="${displayTrailers}"><b>Остаток<br>топлива</b></td>
+			<td th:unless="${displayTrailers}"><b>Расход<br>топлива</b></td>
+	
+			
+			<td th:if="${displayTrailers}"><b>Тип прицепа</b><br>
+			<h7><a th:href="@{/boss/vehicles/addTrailerType}">Добавить</a></h7></td>
+			
+					<td>Изменить<br>Удалить</td>
+			</tr>
+			<tr><form th:method="POST" th:action="@{/boss/vehicles/add}" th:object="${vehicle}">
+				<td><input type="submit" value="Добавить"/></td>
+				<td><input type="text" th:field="*{make}" placeholder="Марка"/></td>
+				<td><input type="text" th:field="*{model}" placeholder="Модель"/></td>
+				<td><input type="text" th:field="*{number}" placeholder="Номер"/><input type="hidden" th:field="*{trailer}" th:value="false"/></td>
+						
+				<td th:if="${displayTrailers}"><select th:field="*{type}" th:each="trailerType : ${trailerTypes}">
+					<option th:value="${trailerType}" th:text="${trailerType.name}"></option>
+					</select></td>
+				<td th:unless="${displayTrailers}"><input type="number" th:field="*{speedometerReading}" placeholder="Спидометр"/></td>
+				<td th:unless="${displayTrailers}"><input type="number" th:field="*{remainingFuel}" placeholder="Остаток топлива"/></td>
+				<td th:unless="${displayTrailers}"><input type="number" th:field="*{fuelConsumptionRate}" placeholder="л/100км"/></td>		
+				</form></tr>
+			<tr th:each="vehicle : ${vehicles}">
+				<form th:method="DELETE" th:object="${vehicle}" th:action="@{/boss/vehicles/delete/{id}(id=*{id})}">				
+				<td></td>
+				<td th:text="${vehicle.make}"></td>
+				<td th:text="${vehicle.model}"></td>
+				<td th:text="${vehicle.number}"></td>
+				<td th:if="${vehicle.trailer}" th:text="${vehicle.type}"></td>
+				<td th:unless="${displayTrailers}" th:text="${vehicle.speedometerReading}"></td>
+				<td th:unless="${displayTrailers}" th:text="${vehicle.remainingFuel}"></td>
+				<td th:unless="${displayTrailers}" th:text="${vehicle.fuelConsumptionRate}==0 ? ${vehicle.fuelConsumptionRate} : ' '"></td>
+				<td><a th:href="@{/boss/vehicles/edit/{id}(id=*{id})}">Изменить<br></a><input type="submit" value="Удалить"/></td></form>
+				</tr>
+		</table>-->
+		</div>
+		<div id="prefooter"></div>
+		</div><!-- Закрытие div контент -->
+<div id="footerdiv">Это подвал</div>
+</center>
+</body>
+</html>

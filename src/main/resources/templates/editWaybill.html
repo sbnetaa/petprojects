@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Изменение нормы расхода топлива</title>
+<link href="../static/styles.css" th:href="@{/styles.css}" rel="stylesheet" />
+</head>
+<body>
+	<a th:href="@{/boss/vehicles}">Машины и прицепы</a><br>
+<a th:href="@{/boss/drivers}">Водители</a><br>
+<a th:href="@{/boss/waybills}">Путевые листы</a><br>
+<a th:href="@{/boss/fuelData}">Нормы расхода топлива</a>
+<form th:method="PATCH" th:action="@{/boss/waybills/edit/{id}(id=*{id})}" th:object="${waybill}">
+				
+				
+				Номер путевого листа: <input type="number" th:field="*{number}" placeholder="Номер путевого листа"/><br>
+				
+			Водитель: <select th:field="*{driver}">
+    						<option th:each="driverName : ${drivers}" 
+        						th:value="${driverName}" th:text="${driverName.name}"></option>
+						</select><br>
+						Машина: <select th:field="*{car}">
+    						<option th:each="carNumber : ${cars}" 
+        						th:value="${carNumber}" th:text="${carNumber.number}"></option>
+						</select><br>
+						Прицеп: <select th:field="*{trailer}">
+    						<option th:each="driverName : ${trailers}" 
+        						th:value="${trailerNumber}" th:text="${trailerNumber.number}"></option>
+						</select><br>
+						Дата путевки: <input type="date" th:field="*{dateOfTravel}"/><br>
+						Дата и время выезда: <input type="datetime-local" th:field="*{timeOfDeparture}"/><br>
+						Дата и время возврата в гараж: <input type="datetime-local" th:field="*{timeOfReturn}"/><br>
+						Спидометр перед путевкой: <input type="number" th:field="*{speedometerBefore}"/><br>
+						Топливо перед путевкой: <input type="number" th:field="*{fuelBefore}"/><br>
+						Моточасы:<input type="number" th:field="*{engineHours}"/><br>
+						Топливо в рефрежераторе: <input type="number" th:field="*{fuelInRefrigerationUnit}"/><br>
+						----------------<h4>Закрытие путевки</h4><br>
+						Спидометр после путевки: <input type="number" th:field="*{speedometerAfter}"/><br>
+						Топливо после путевки: <input type="number" th:field="*{fuelAfter}"/><br>
+						<input type="submit" value="Сохранить"/>
+				</form>
+				<br><br><br>
+	<form th:action="@{/boss/waybills/view/{id}(id=*{id})}"><button>Отмена</button></form>
+</body>
+</html>

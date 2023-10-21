@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Просмотр путевого листа</title>
+<link href="../static/styles.css" th:href="@{/styles.css}" rel="stylesheet" />
+</head>
+<body>
+	<a th:href="@{/boss/vehicles}">Машины и прицепы</a><br>
+<a th:href="@{/boss/drivers}">Водители</a><br>
+<a th:href="@{/boss/waybills}">Путевые листы</a><br>
+<a th:href="@{/boss/fuelData}">Нормы расхода топлива</a>
+	<div th:object=${waybill}>
+	<h1>ИНФО путевой лист</h1><br>
+Номер путевого листа:	<span th:text=${waybill.number} id="number"></span>
+<div th:object="${waybill}">
+				Номер путевого листа: <span th:text="${waybill.number}"></span><br>
+				
+			Водитель: <span th:text="${waybill?.driver?.name}"></span><br>
+						Машина: <span th:text="${waybill?.car?.number}"></span><br>
+						Прицеп: <span th:text="${waybill?.trailer?.number}"></span><br>
+						Дата путевки: <span th:text="${waybill.dateOfTravel}"></span><br>
+						Дата и время выезда: <span th:text="${waybill.timeOfDeparture}"></span><br>
+						Дата и время возврата в гараж: <span th:text="${waybill.timeOfReturn}"></span><br>
+						Cпидометр перед путевкой: <span th:text="${waybill.speedometerBefore}"></span><br>
+						Топливо перед путевкой: <span th:text="${waybill.fuelBefore}"></span><br>
+						Моточасы: <span th:text="${waybill.engineHours}"></span><br>
+						Топливо в рефрежераторе: <span th:text="${waybill.fuelInRefrigerationUnit}"></span><br>
+						----------------<h4>После путевки</h4><br>
+						Cпидометр после путевки: <span th:text="${waybill.speedometerAfter}"></span><br>
+						Топливо после путевки: <span th:text="${waybill.fuelAfter}"></span><br>
+						
+						<form th:action="@{/boss/waybills/edit/{id}(id=*{id})}"><button>Изменить</button></form>
+						<br><br><br><br><br><form th:method="DELETE" th:action="@{/boss/waybills/delete/{id}(id=*{id})}">
+							<button>Удалить</button></form>
+		
+</div>
+<script>
+function replaceNumber() {
+  document.getElementById("number") = <h1>ZVODORO</h1>;
+}
+</script>
+</body>
+</html>

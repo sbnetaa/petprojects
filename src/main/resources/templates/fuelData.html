@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Нормы расхода топлива</title>
+ <link href="../static/styles.css" th:href="@{/styles.css}" rel="stylesheet" />
+</head>
+<body>
+	<a th:href="@{/boss/vehicles}">Машины и прицепы</a><br>
+<a th:href="@{/boss/drivers}">Водители</a><br>
+<a th:href="@{/boss/waybills}">Путевые листы</a><br>
+<a th:href="@{/boss/fuelData}">Нормы расхода топлива</a>
+	<div>
+
+<div>
+	<table>
+		<tr>
+			<td>Добавить</td>
+			<td><b>Дата начала</b></td>
+			<td><b>Норма (Л/100КМ)</b></td>
+					<td>Изменить<br>Удалить</td>
+			</tr>
+			<tr><form th:method="POST" th:action="@{/boss/fuelData/add}" th:object="${fuelData}">
+				<td><input type="submit" value="Добавить"/></td>
+				<td><input type="date" th:field="*{start}" placeholder="Дата начала"/></td>
+				<td><input type="number" th:field="*{consumptionRate}" placeholder="Норма расхода топлива"/></td>
+				</form></tr>
+			<tr th:each="fuelData : ${allFuelData}">
+							
+				<td></td>
+				<td th:text="${fuelData.start}"></td>
+				<td th:text="${fuelData.consumptionRate}"></td>
+				<td><form th:action="@{/boss/fuelData/edit/{id}(id=*{fuelData.id})}"><button>Изменить</button></form>
+				<form th:method="DELETE" th:action="@{/boss/fuelData/delete/{id}(id=*{fuelData.id})}"><button>Удалить</button></form></td>
+				</tr>
+		</table>
+</div>
+</div>
+</body>
+</html>

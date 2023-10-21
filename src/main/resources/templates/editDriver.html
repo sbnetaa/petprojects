@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Изменение водителя</title>
+<link href="../static/styles.css" th:href="@{/styles.css}" rel="stylesheet" />
+</head>
+<body>
+	<a th:href="@{/boss/vehicles}">Машины и прицепы</a><br>
+<a th:href="@{/boss/drivers}">Водители</a><br>
+<a th:href="@{/boss/waybills}">Путевые листы</a><br>
+<a th:href="@{/boss/fuelData}">Нормы расхода топлива</a>
+<div th:object="${driver}">
+	<h1>Редактирование водителя</h1>
+	<fieldset><div style="width: 100px; display: inline-block; vertical-align: top;">	
+<form th:method="PATCH" th:action="@{/boss/drivers/edit/{id}(id=*{id})}">
+	<p>ФИО: <input type="text" th:field="*{fullName}"/></p>
+	<p>Номер вод. удостоверения: <input type="number" th:field="*{licenseNumber}" placeholder="Номер удостоверения"/></p>
+	<p>Категория прав: <select th:field="*{category}">
+    	<option th:each="categoryName : ${T(com.terentyev.transportation.entities.Worker.Category).values()}" 
+        		th:value="${categoryName}" th:text="${categoryName.toString()}"></option>
+		</select></p>
+		<input type="submit" value="Сохранить"/>
+	</form></div>	
+	</fieldset>
+	<br><br><br>
+	<form th:action="@{/boss/drivers}"><button>Отмена</button></form><br><br><br>
+	<form th:method="DELETE" th:action="@{/boss/drivers/delete/{id}(id=*{id})}"><button>Удалить</button></form><br><br><br>
+</div>
+	<!--<table>
+		<tr>
+			<td><b>ФИО</b></td>
+			<td><b>Удостоверение</b></td>
+			<td><b>Категория</b></td>			
+			</tr>
+			<tr><form th:method="PATCH" th:action="@{/boss/drivers/edit/{id}(id=*{id})}" th:object="${driver}">
+				<td><input type="text" th:field="*{fullName}" placeholder="ФИО"/></td>
+				<td><input type="text" th:field="*{licenseNumber}" placeholder="Номер водительского удостоверения"/></td>
+				<td><select th:field="*{category}">
+    						<option th:each="categoryName : ${T(com.terentyev.transportation.entities.Worker.Category).values()}" 
+        						th:value="${categoryName}" th:text="${categoryName.toString()}"></option>
+						</select></td>
+				<td><input type="submit" value="Сохранить"/></td>
+				</form></tr>
+			
+		</table>-->
+
+</body>
+</html>

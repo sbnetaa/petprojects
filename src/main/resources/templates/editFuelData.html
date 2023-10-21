@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Изменение нормы расхода топлива</title>
+<link href="../static/styles.css" th:href="@{/styles.css}" rel="stylesheet" />
+</head>
+<body>
+	<a th:href="@{/boss/vehicles}">Машины и прицепы</a><br>
+<a th:href="@{/boss/drivers}">Водители</a><br>
+<a th:href="@{/boss/waybills}">Путевые листы</a><br>
+<a th:href="@{/boss/fuelData}">Нормы расхода топлива</a>
+<div>
+	<table>
+		<tr>
+			<td><b>Дата начала</b></td>
+			<td><b>Норма (Л/100КМ)</b></td>	
+			<td>Сохранить</td>		
+			</tr>
+			<tr><form th:method="PATCH" th:action="@{/boss/fuelData/edit/{id}(id=*{id})}" th:object="${fuelData}">
+				<td><input type="date" th:value="${fuelData.start}" th:field="*{start}" placeholder="Дата начала"/></td>
+				<td><input type="number" th:field="*{consumptionRate}" placeholder="Норма расхода топлива"/></td>
+				<td><input type="submit" value="Сохранить"/></td>
+				</form></tr>
+							<br><br><br>
+	<form th:action="@{/boss/fuelData}"><button>Отмена</button></form>		
+		</table>
+</div>
+</body>
+</html>

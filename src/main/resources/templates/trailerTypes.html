@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Типы прицепов</title>
+<link href="../static/styles.css" th:href="@{/styles.css}" rel="stylesheet" />
+</head>
+<body>
+	<a th:href="@{/boss/vehicles}">Машины и прицепы</a><br>
+<a th:href="@{/boss/drivers}">Водители</a><br>
+<a th:href="@{/boss/waybills}">Путевые листы</a><br>
+<a th:href="@{/boss/fuelData}">Нормы расхода топлива</a>
+<h1>Типы прицепов</h1>
+<p><a th:href="@{/boss/vehicles/trailerTypes/add}">Добавить</a></p>
+<div th:each="trailerType : ${trailerTypes}">
+	<span th:text="${trailerType.name}"></span>
+	</div>
+</body>
+</html>

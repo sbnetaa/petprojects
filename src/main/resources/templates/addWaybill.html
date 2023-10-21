@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Добавление путевого листа</title>
+<link href="../static/styles.css" th:href="@{/styles.css}" rel="stylesheet" />
+</head>
+<body>
+	<a th:href="@{/boss/vehicles}">Машины и прицепы</a><br>
+<a th:href="@{/boss/drivers}">Водители</a><br>
+<a th:href="@{/boss/waybills}">Путевые листы</a><br>
+<a th:href="@{/boss/fuelData}">Нормы расхода топлива</a>
+<form th:method="POST" th:action="@{/boss/waybills/add}" th:object="${waybill}">
+				
+				
+				Номер путевого листа: <input type="number" th:field="*{number}" placeholder="Номер путевого листа"/><br>
+				Компания: <select th:field="*{company}" th:each="companyName : ${companies}">
+    						<option 
+        						th:value="${companyName}" th:text="${companyName?.name}"></option>
+						</select><br>
+			Водитель: <select th:field="*{driver}" th:each="driverName : ${drivers}">
+    						<option 
+        						th:value="${driverName}" th:text="${driverName?.name}"></option>
+						</select><br>
+						Машина: <select th:field="*{car}" th:each="carNumber : ${cars}">
+    						<option 
+        						th:value="${carNumber}" th:text="${carNumber?.number}"></option>
+						</select><br>
+						Прицеп: <select th:field="*{trailer}" th:each="driverName : ${trailers}">
+    						<option 
+        						th:value="${trailerNumber}" th:text="${trailerNumber?.number}"></option>
+						</select><br>
+						Дата путевки: <input type="date" th:field="*{dateOfTravel}"/><br>
+						Дата и время выезда: <input type="datetime-local" th:field="*{timeOfDeparture}"/><br>
+						Дата и время возврата в гараж: <input type="datetime-local" th:field="*{timeOfReturn}"/><br>
+						Спидометр до: <input type="number" th:field="*{speedometerBefore}"/><br>
+						Остаток топлива до: <input type="number" th:field="*{fuelBefore}"/><br>
+						Моточасы:<input type="number" th:field="*{engineHours}"/><br>
+						Остаток топлива в рефрежераторе: <input type="number" th:field="*{fuelInRefrigerationUnit}"/><br>
+						------------
+						<b>Закрытие путевки</b><br><br><br>
+						Спидометр после: <input type="number" th:field="*{speedometerAfter}"/><br>
+						Остаток топлива после: <input type="number" th:field="*{fuelAfter}"/><br>
+						<input type="submit" value="Добавить"/>
+				</form>
+</body>
+</html>

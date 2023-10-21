@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Компании</title>
+</head>
+<body>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Компании</title>
+<link href="../static/styles.css" th:href="@{/styles.css}" rel="stylesheet" />
+</head>
+<body>
+	<a th:href="@{/boss/vehicles}">Машины и прицепы</a><br>
+<a th:href="@{/boss/drivers}">Водители</a><br>
+<a th:href="@{/boss/waybills}">Путевые листы</a><br>
+<a th:href="@{/boss/fuelData}">Нормы расхода топлива</a>
+	<div>
+	<h1>КОмпании</h1><br>
+	<h3><a th:href="@{/boss/companies/add}">Добавить</a></h3>
+	<table>
+		<tr>
+
+			<td><b>Название</b></td>
+			<td><b>Дата путевки</b></td>
+			<td><b>Номер машины</b></td>
+			<td>Инфо<br>Изменить</td>			
+			</tr>
+			
+			<tr th:each="waybill : ${waybills}">							
+				<td th:text="${waybill.number}"></td>
+				<td th:text="${waybill.dateOfTravel}"></td>
+				<td th:text="${waybill?.car?.number}"></td>
+				<td><a th:href="@{/boss/waybills/view/{id}(id=*{waybill.id})}">Инфо<br></a>
+					<a th:href="@{/boss/waybills/edit/{id}(id=*{waybill.id})}">Изменить</a></td>
+				</tr>
+		</table>
+</div>
+</body>
+</html>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Просмотр машины/прицепа</title>
+ <link href="../static/styles.css" th:href="@{/styles.css}" rel="stylesheet" />
+</head>
+<body>
+<a th:href="@{/boss/vehicles}">Машины и прицепы</a><br>
+<a th:href="@{/boss/drivers}">Водители</a><br>
+<a th:href="@{/boss/waybills}">Путевые листы</a><br>
+<a th:href="@{/boss/fuelData}">Нормы расхода топлива</a>
+<h1 th:unless="${displayTrailers}">Машина</h1>
+<h1 th:if="${displayTrailers}">Прицеп</h1>
+<a th:href="@{/boss/vehicles/add}"><h3>Добавить</h3></a>
+<div th:object="${vehicle}">
+	<p>Марка: <span th:text="${vehicle.make}"></span></p>
+	<p>Модель:  <span th:text="${vehicle.model}"></span></p>
+	<p>Номер:  <span th:text="${vehicle.number}"></span></p>
+	<p th:if="*{trailer}">Тип прицепа:  <span th:text="${vehicle.type}"></span></p>
+	<p th:unless="*{trailer}">Спидометр:  <span th:text="${vehicle.speedometerReading}"> км</span></p>
+	<p th:unless="*{trailer}">Остаток топлива:  <span th:text="${vehicle.remainingFuel}"> л</span></p>
+	<p th:unless="*{trailer}">Расход топлива:  <span th:text="${vehicle.fuelConsumptionRate}"> л/км</span></p>
+	<a th:href="@{/boss/vehicles/edit/{id}(id=*{id})}">Изменить</a>
+</div>
+</body>
+</html>

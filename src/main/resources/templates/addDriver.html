@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Добавление водителя</title>
+<link href="../static/styles.css" th:href="@{/styles.css}" rel="stylesheet" />
+</head>
+<body>
+<a th:href="@{/boss/vehicles}">Машины и прицепы</a><br>
+<a th:href="@{/boss/drivers}">Водители</a><br>
+<a th:href="@{/boss/waybills}">Путевые листы</a><br>
+<a th:href="@{/boss/fuelData}">Нормы расхода топлива</a>
+<h1>Добавление водителя</h1>
+<form th:method="POST" th:action="@{/boss/drivers/add}" th:object="${driver}">
+	<p>ФИО: <input type="text" th:field="*{fullName}"/></p>
+	<p>Номер вод. удостоверения: <input type="number" th:field="*{licenseNumber}" placeholder="Номер удостоверения"/></p>
+	<p>Категория прав: <select th:field="*{category}">
+    	<option th:each="categoryName : ${T(com.terentyev.transportation.entities.Worker.Category).values()}" 
+        		th:value="${categoryName}" th:text="${categoryName.toString()}"></option>
+		</select></p>
+		
+		<input type="submit" value="Добавить"/>
+	</form> <br><br><br>
+	<p><form th:action="@{/boss/drivers}"><button>Отмена</button></form></p>
+</body>
+</html>

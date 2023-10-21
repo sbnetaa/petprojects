@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Изменение машины/прицепа</title>
+<link href="../static/styles.css" th:href="@{/styles.css}" rel="stylesheet" />
+</head>
+<body>
+	<a th:href="@{/boss/vehicles}">Машины и прицепы</a><br>
+<a th:href="@{/boss/drivers}">Водители</a><br>
+<a th:href="@{/boss/waybills}">Путевые листы</a><br>
+<a th:href="@{/boss/fuelData}">Нормы расхода топлива</a>
+<form th:method="PATCH" th:action="@{/boss/vehicles/edit/{id}(id=*{id})}" th:object="${vehicle}">
+	<p> Марка: <input type="text" th:field="*{make}"/></p>
+	<p> Модель: <input type="text" th:field="*{model}"/></p>
+	<p> Номер: <input type="text" th:field="*{number}"/></p>
+	<p th:if="*{trailer}"> Тип прицепа: <select th:field="*{type}" th:each="typeName : ${trailerTypes}">
+				<option th:value="${typeName.name}" th:text="${typeName.name}"></option>
+				</select><a th:href="@{/boss/vehicles/trailerTypes/add}">Добавить</a></p>
+				<input type="hidden" th:field="*{trailer}" th:value="${displayTrailers}"/>
+	<p th:unless="*{trailer}"> Спидометр: <input type="number" th:field="*{speedometerReading}"/></p>
+	<p th:unless="*{trailer}"> Остаток топлива: <input type="number" th:field="*{remainingFuel}"/></p>
+	<p th:unless="*{trailer}"> Расход топлива: <label><input type="checkbox" th:field="*{individualFcr}" th:value="true">Свой</label><input type="number" th:field="*{fuelConsumptionRate}"/>
+	</p>
+	<input type="submit" value="Сохранить"/>
+	<br><br><br>
+	<form th:action="@{/boss/vehicles}"><button>Отмена</button></form>
+	<!--<table>
+		<tr>
+			<td><b>Марка</b></td>
+			<td><b>Модель</b></td>
+			<td><b>Номер</b></td>			
+			<td th:unless="${searchForTrailers}"><b>Спидометр</b></td>
+			<td th:unless="${searchForTrailers}"><b>Остаток<br>топлива</b></td>
+			<td th:unless="${searchForTrailers}"><b>Расход<br>топлива</b></td>
+			<td th:if="${searchForTrailers}"><b>Тип прицепа</b></td>
+			</tr>
+			<tr><form th:method="PATCH" th:action="@{/boss/vehicles/edit/{id}(id=*{id})}" th:object="${vehicle}">
+				<td><input type="text" th:field="*{make}" placeholder="Марка"/></td>
+				<td><input type="text" th:field="*{model}" placeholder="Модель"/></td>
+				<td><input type="text" th:field="*{number}" placeholder="Номер"/></td>
+				<td th:unless="${searchForTrailers}"><input type="number" th:field="*{speedometerReading}" placeholder="Спидометр"/></td>
+				<td th:unless="${searchForTrailers}"><input type="number" th:field="*{remainingFuel}" placeholder="Остаток топлива"/></td>
+				<td th:unless="${searchForTrailers}"><input type="number" th:field="*{fuelConsumptionRate}" placeholder="Расход топлива"/>Л/100КМ<br>
+				<h7><!--<label><input type="hidden" th:field="*{individualFcr}" th:value="false"/></label>
+					<label>
+					<input type="checkbox" th:field="*{individualFcr}" th:value="true">Свой</label></h7>
+				</td>
+				<td th:if="${searchForTrailers}"><select th:field="*{trailer}" th:each="type : ${trailerTypes}">
+					<option th:value="${type}" th:text="${type.name}"></option>
+					</select>
+				</td>
+				<input type="submit" value="Сохранить"/></td>
+				</form></tr>
+			
+		</table> -->
+</form>
+</body>
+</html>

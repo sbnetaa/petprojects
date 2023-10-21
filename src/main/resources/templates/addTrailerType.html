@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Добавление типа прицепа</title>
+ <link href="../static/styles.css" th:href="@{/styles.css}" rel="stylesheet" />
+</head>
+<body>
+	<a th:href="@{/boss/vehicles}">Машины и прицепы</a><br>
+<a th:href="@{/boss/drivers}">Водители</a><br>
+<a th:href="@{/boss/waybills}">Путевые листы</a><br>
+<a th:href="@{/boss/fuelData}">Нормы расхода топлива</a>
+<h1>Добавление типа прицепа</h1>
+<form th:method="POST" th:action="@{/boss/vehicles/trailerTypes/add}" th:object="${trailerType}">
+	Название: <input type="text" th:field="*{name}"/>
+	<input type="submit" value="Добавить"/>
+	</form>
+</body>
+</html>
